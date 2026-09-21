@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import{INITIAL_BALANCES,validateOrder,reserveLimit,cancelLimit,executeMarket}from'./trading.js';
+test('quote reservation and cancellation preserve ledger',()=>{let o={side:'buy',amount:2,price:1000};let r=reserveLimit(INITIAL_BALANCES,o);assert.deepEqual(r.USDT,{available:23000,reserved:2000});assert.deepEqual(cancelLimit(r,o).USDT,INITIAL_BALANCES.USDT)});
+test('base reservation',()=>assert.deepEqual(reserveLimit(INITIAL_BALANCES,{side:'sell',amount:1,price:2000}).ETH,{available:3.2,reserved:1}));
+test('market execution updates both assets',()=>{let r=executeMarket(INITIAL_BALANCES,{side:'buy',amount:1},2000);assert.equal(r.USDT.available,23000);assert.equal(r.ETH.available,5.2)});
+test('validation rejects insufficient funds and precision',()=>{assert.match(validateOrder({side:'buy',type:'limit',price:2000,amount:20},INITIAL_BALANCES),/Недостатньо/);assert.match(validateOrder({side:'sell',type:'limit',price:2,amount:1.1234567},INITIAL_BALANCES),/6/) });

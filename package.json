@@ -1,0 +1,1 @@
+{"name":"nexora-exchange","version":"1.0.0","private":true,"type":"module","scripts":{"dev":"node server.js","build":"node scripts/check-build.js","test":"node --test src/trading.test.js"}}
