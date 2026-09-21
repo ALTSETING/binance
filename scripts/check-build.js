@@ -1,0 +1,1 @@
+import{readFile,access}from'node:fs/promises';for(const f of['index.html','src/app.js','src/styles.css','src/trading.js'])await access(f);const h=await readFile('index.html','utf8');if(!h.includes('src/app.js'))throw Error('Entry missing');console.log('Static build validated');

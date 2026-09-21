@@ -1,0 +1,3 @@
+import {createServer} from 'node:http';import{readFile}from'node:fs/promises';import{extname,join,normalize}from'node:path';
+const root=process.cwd(),port=Number(process.env.PORT)||4173,types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml'};
+createServer(async(req,res)=>{try{const p=normalize(req.url.split('?')[0]).replace(/^(\.\.[/\\])+/,''),f=join(root,p==='/'?'index.html':p);res.setHeader('Content-Type',types[extname(f)]||'application/octet-stream');res.end(await readFile(f))}catch{res.statusCode=404;res.end('Not found')}}).listen(port,()=>console.log(`Nexora: http://localhost:${port}`));
